@@ -1,0 +1,89 @@
+version: "3.9"
+
+# ============================================================
+# Fashion Shop POS — Docker Compose
+# ============================================================
+# Services:
+#   db      - PostgreSQL 15
+#   odoo    - Odoo 17 with fashion_pos module
+#
+# Usage (after running deploy/setup.sh):
+#   docker compose up -d
+#   docker compose logs -f odoo
+# ============================================================
+
+services:
+
+  # ── PostgreSQL database ──────────────────────────────────
+  db:
+    image: postgres:15-alpine
+    container_name: fashion_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-odoo}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set in .env}
+      POSTGRES_DB: ${DB_NAME:-fashion_gambia}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-odoo}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - internal
+
+  # ── Odoo application ─────────────────────────────────────
+  odoo:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
+    container_name: fashion_odoo
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      HOST: db
+      PORT: 5432
+      USER: ${DB_USER:-odoo}
+      PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set in .env}
+    volumes:
+      # Odoo addons — your fork is mounted directly
+      - ./addons:/mnt/extra-addons:ro
+      # Persistent file storage (uploaded images, attachments)
+      - odoo_data:/var/lib/odoo
+      # Configuration file
+      - ./deploy/odoo.conf:/etc/odoo/odoo.conf:ro
+    ports:
+      # Expose ONLY on the WireGuard VPN interface (10.0.0.1)
+      # Change to "127.0.0.1:8069:8069" if Nginx runs on the same host
+      - "10.0.0.1:8069:8069"
+      # Longpolling for real-time POS updates
+      - "10.0.0.1:8072:8072"
+    command: >
+      odoo
+      --config=/etc/odoo/odoo.conf
+      --db_host=db
+      --db_port=5432
+      --db_user=${DB_USER:-odoo}
+      --db_password=${DB_PASSWORD}
+    networks:
+      - internal
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  db_data:
+    name: fashion_db_data
+  odoo_data:
+    name: fashion_odoo_data
+
+networks:
+  internal:
+    name: fashion_internal
+    driver: bridge
