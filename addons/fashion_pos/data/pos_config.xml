@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+    <!--
+        Default POS configuration for the fashion shop.
+
+        Notes:
+        - restrict_price_control = True  → only POS Managers can change
+          product prices or apply manual discounts at checkout.
+        - Employee PIN login is enabled automatically once the pos_hr module
+          is active. Assign "basic" or "manager" roles to employees in
+          Point of Sale → Configuration → Settings → Employees.
+        - Manager approval for refunds is enforced by the pos_hr frontend:
+          only employees with the "manager" role can open the return screen.
+        - Wave and Afrimoney payment methods are linked here. Cash (GMD) is
+          added automatically from the default journal.
+        - Set the company currency to GMD (Gambian Dalasi) in
+          Settings → Companies before activating the POS session.
+    -->
+
+    <record id="pos_config_fashion" model="pos.config">
+        <field name="name">Fashion Shop</field>
+        <field name="restrict_price_control" eval="True"/>
+        <field name="payment_method_ids" eval="[
+            Command.link(ref('fashion_pos.payment_method_wave')),
+            Command.link(ref('fashion_pos.payment_method_afrimoney')),
+        ]"/>
+    </record>
+</odoo>

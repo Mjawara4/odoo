@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+    <!--
+        Fashion product attributes.
+        create_variant="always" means each size/color combo gets its own
+        stock-trackable variant (product.product), which is required for
+        per-SKU inventory control.
+    -->
+
+    <!-- =====================================================================
+         Clothing Size  (XS → 3XL)
+         Used by: Tops, Bottoms, Dresses, Underwear
+         ===================================================================== -->
+    <record id="pa_clothing_size" model="product.attribute">
+        <field name="name">Clothing Size</field>
+        <field name="sequence">10</field>
+        <field name="display_type">pills</field>
+        <field name="create_variant">always</field>
+    </record>
+
+    <record id="pav_cs_xs" model="product.attribute.value">
+        <field name="name">XS</field>
+        <field name="sequence">1</field>
+        <field name="attribute_id" ref="pa_clothing_size"/>
+    </record>
+    <record id="pav_cs_s" model="product.attribute.value">
+        <field name="name">S</field>
+        <field name="sequence">2</field>
+        <field name="attribute_id" ref="pa_clothing_size"/>
+    </record>
+    <record id="pav_cs_m" model="product.attribute.value">
+        <field name="name">M</field>
+        <field name="sequence">3</field>
+        <field name="attribute_id" ref="pa_clothing_size"/>
+    </record>
+    <record id="pav_cs_l" model="product.attribute.value">
+        <field name="name">L</field>
+        <field name="sequence">4</field>
+        <field name="attribute_id" ref="pa_clothing_size"/>
+    </record>
+    <record id="pav_cs_xl" model="product.attribute.value">
+        <field name="name">XL</field>
+        <field name="sequence">5</field>
+        <field name="attribute_id" ref="pa_clothing_size"/>
+    </record>
+    <record id="pav_cs_2xl" model="product.attribute.value">
+        <field name="name">2XL</field>
+        <field name="sequence">6</field>
+        <field name="attribute_id" ref="pa_clothing_size"/>
+    </record>
+    <record id="pav_cs_3xl" model="product.attribute.value">
+        <field name="name">3XL</field>
+        <field name="sequence">7</field>
+        <field name="attribute_id" ref="pa_clothing_size"/>
+    </record>
+
+    <!-- =====================================================================
+         Shoe Size  (EU 36 → 45)
+         Used by: Shoes
+         create_variant="always" → separate stock per shoe size
+         ===================================================================== -->
+    <record id="pa_shoe_size" model="product.attribute">
+        <field name="name">Shoe Size</field>
+        <field name="sequence">20</field>
+        <field name="display_type">pills</field>
+        <field name="create_variant">always</field>
+    </record>
+
+    <record id="pav_ss_36" model="product.attribute.value">
+        <field name="name">36</field>
+        <field name="sequence">1</field>
+        <field name="attribute_id" ref="pa_shoe_size"/>
+    </record>
+    <record id="pav_ss_37" model="product.attribute.value">
+        <field name="name">37</field>
+        <field name="sequence">2</field>
+        <field name="attribute_id" ref="pa_shoe_size"/>
+    </record>
+    <record id="pav_ss_38" model="product.attribute.value">
+        <field name="name">38</field>
+        <field name="sequence">3</field>
+        <field name="attribute_id" ref="pa_shoe_size"/>
+    </record>
+    <record id="pav_ss_39" model="product.attribute.value">
+        <field name="name">39</field>
+        <field name="sequence">4</field>
+        <field name="attribute_id" ref="pa_shoe_size"/>
+    </record>
+    <record id="pav_ss_40" model="product.attribute.value">
+        <field name="name">40</field>
+        <field name="sequence">5</field>
+        <field name="attribute_id" ref="pa_shoe_size"/>
+    </record>
+    <record id="pav_ss_41" model="product.attribute.value">
+        <field name="name">41</field>
+        <field name="sequence">6</field>
+        <field name="attribute_id" ref="pa_shoe_size"/>
+    </record>
+    <record id="pav_ss_42" model="product.attribute.value">
+        <field name="name">42</field>
+        <field name="sequence">7</field>
+        <field name="attribute_id" ref="pa_shoe_size"/>
+    </record>
+    <record id="pav_ss_43" model="product.attribute.value">
+        <field name="name">43</field>
+        <field name="sequence">8</field>
+        <field name="attribute_id" ref="pa_shoe_size"/>
+    </record>
+    <record id="pav_ss_44" model="product.attribute.value">
+        <field name="name">44</field>
+        <field name="sequence">9</field>
+        <field name="attribute_id" ref="pa_shoe_size"/>
+    </record>
+    <record id="pav_ss_45" model="product.attribute.value">
+        <field name="name">45</field>
+        <field name="sequence">10</field>
+        <field name="attribute_id" ref="pa_shoe_size"/>
+    </record>
+
+    <!-- =====================================================================
+         Colour
+         Used by: all fashion categories
+         create_variant="always" → separate stock per colour
+         ===================================================================== -->
+    <record id="pa_fashion_color" model="product.attribute">
+        <field name="name">Color</field>
+        <field name="sequence">30</field>
+        <field name="display_type">color</field>
+        <field name="create_variant">always</field>
+    </record>
+
+    <record id="pav_col_white" model="product.attribute.value">
+        <field name="name">White</field>
+        <field name="html_color">#FAFAFA</field>
+        <field name="sequence">1</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_black" model="product.attribute.value">
+        <field name="name">Black</field>
+        <field name="html_color">#1C1C1C</field>
+        <field name="sequence">2</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_gray" model="product.attribute.value">
+        <field name="name">Gray</field>
+        <field name="html_color">#B0B0B0</field>
+        <field name="sequence">3</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_brown" model="product.attribute.value">
+        <field name="name">Brown</field>
+        <field name="html_color">#8B5E3C</field>
+        <field name="sequence">4</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_beige" model="product.attribute.value">
+        <field name="name">Beige</field>
+        <field name="html_color">#EAE0D5</field>
+        <field name="sequence">5</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_red" model="product.attribute.value">
+        <field name="name">Red</field>
+        <field name="html_color">#E63946</field>
+        <field name="sequence">6</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_blue" model="product.attribute.value">
+        <field name="name">Blue</field>
+        <field name="html_color">#457B9D</field>
+        <field name="sequence">7</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_navy" model="product.attribute.value">
+        <field name="name">Navy</field>
+        <field name="html_color">#264653</field>
+        <field name="sequence">8</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_green" model="product.attribute.value">
+        <field name="name">Green</field>
+        <field name="html_color">#2A9D8F</field>
+        <field name="sequence">9</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_yellow" model="product.attribute.value">
+        <field name="name">Yellow</field>
+        <field name="html_color">#F4D35E</field>
+        <field name="sequence">10</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_orange" model="product.attribute.value">
+        <field name="name">Orange</field>
+        <field name="html_color">#F38E1E</field>
+        <field name="sequence">11</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_pink" model="product.attribute.value">
+        <field name="name">Pink</field>
+        <field name="html_color">#FFB6C1</field>
+        <field name="sequence">12</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_purple" model="product.attribute.value">
+        <field name="name">Purple</field>
+        <field name="html_color">#8E4585</field>
+        <field name="sequence">13</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_gold" model="product.attribute.value">
+        <field name="name">Gold</field>
+        <field name="html_color">#FFD86F</field>
+        <field name="sequence">14</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_silver" model="product.attribute.value">
+        <field name="name">Silver</field>
+        <field name="html_color">#D8D8D8</field>
+        <field name="sequence">15</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+    <record id="pav_col_multicolor" model="product.attribute.value">
+        <field name="name">Multicolor</field>
+        <field name="html_color">#FF6347</field>
+        <field name="sequence">16</field>
+        <field name="attribute_id" ref="pa_fashion_color"/>
+    </record>
+</odoo>

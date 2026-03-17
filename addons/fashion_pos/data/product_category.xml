@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+    <!--
+        Fashion product categories.
+        fashion_sku_code is used by the auto-SKU generator in product_template.py.
+        Each category is a child of "All" (product.product_category_all).
+    -->
+
+    <record id="categ_fashion" model="product.category">
+        <field name="name">Fashion</field>
+        <field name="parent_id" ref="product.product_category_all"/>
+        <field name="fashion_sku_code">FSH</field>
+    </record>
+
+    <record id="categ_tops" model="product.category">
+        <field name="name">Tops</field>
+        <field name="parent_id" ref="fashion_pos.categ_fashion"/>
+        <field name="fashion_sku_code">TOP</field>
+    </record>
+
+    <record id="categ_bottoms" model="product.category">
+        <field name="name">Bottoms</field>
+        <field name="parent_id" ref="fashion_pos.categ_fashion"/>
+        <field name="fashion_sku_code">BTM</field>
+    </record>
+
+    <record id="categ_dresses" model="product.category">
+        <field name="name">Dresses</field>
+        <field name="parent_id" ref="fashion_pos.categ_fashion"/>
+        <field name="fashion_sku_code">DRS</field>
+    </record>
+
+    <record id="categ_shoes" model="product.category">
+        <field name="name">Shoes</field>
+        <field name="parent_id" ref="fashion_pos.categ_fashion"/>
+        <field name="fashion_sku_code">SHO</field>
+    </record>
+
+    <record id="categ_accessories" model="product.category">
+        <field name="name">Accessories</field>
+        <field name="parent_id" ref="fashion_pos.categ_fashion"/>
+        <field name="fashion_sku_code">ACC</field>
+    </record>
+
+    <record id="categ_underwear" model="product.category">
+        <field name="name">Underwear</field>
+        <field name="parent_id" ref="fashion_pos.categ_fashion"/>
+        <field name="fashion_sku_code">UND</field>
+    </record>
+</odoo>

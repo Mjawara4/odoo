@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+    <!--
+        Two internal stock locations for the fashion shop.
+
+        Both are sub-locations of the main warehouse stock location
+        (stock.stock_location_stock — created by the stock module when the
+        first warehouse is set up).
+
+        - Shop Floor : items physically on the shop floor / display racks.
+        - Backroom   : reserve stock received from China before moving to floor.
+
+        Replenishment rules (configured via Inventory → Replenishment) should
+        be set to pull stock from Backroom → Shop Floor when floor qty < 2 per SKU.
+    -->
+
+    <record id="location_shop_floor" model="stock.location">
+        <field name="name">Shop Floor</field>
+        <field name="usage">internal</field>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="comment">Items displayed on the shop floor / racks. POS sells from here.</field>
+    </record>
+
+    <record id="location_backroom" model="stock.location">
+        <field name="name">Backroom</field>
+        <field name="usage">internal</field>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="comment">Reserve stock. Receive China shipments here first, then replenish Shop Floor.</field>
+    </record>
+</odoo>

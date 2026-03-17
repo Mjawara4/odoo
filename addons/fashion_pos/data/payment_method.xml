@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+    <!--
+        Mobile money payment methods for the Gambia fashion shop.
+
+        Both Wave and Afrimoney are configured as manual bank-type payment
+        methods (no journal assigned). The cashier selects the method, the
+        customer pays on their phone, and the cashier marks the payment as
+        received. A bank journal can be assigned later in
+        Point of Sale → Configuration → Payment Methods.
+    -->
+
+    <record id="payment_method_wave" model="pos.payment.method">
+        <field name="name">Wave Mobile Money</field>
+        <field name="split_transactions" eval="False"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="payment_method_afrimoney" model="pos.payment.method">
+        <field name="name">Afrimoney</field>
+        <field name="split_transactions" eval="False"/>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

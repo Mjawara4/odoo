@@ -1,0 +1,124 @@
+// Fashion POS — Custom branding stylesheet
+// Applied inside the POS frontend (OWL app).
+//
+// Colour palette:
+//   Primary   : #1a1a2e  (deep navy — authority, fashion)
+//   Accent    : #e94560  (warm red — energy, sale highlights)
+//   Background: #f5f5f5  (light grey — clean retail feel)
+//   Text      : #222222
+
+// ── POS header bar ────────────────────────────────────────────────────────────
+.pos-topheader,
+.pos-top-navbar {
+    background-color: #1a1a2e !important;
+    color: #ffffff !important;
+
+    .pos-shop-name,
+    .header-button,
+    .pos-session-time {
+        color: #ffffff !important;
+    }
+}
+
+// ── Product list tiles ────────────────────────────────────────────────────────
+.product-list {
+    .product {
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+        transition: box-shadow 0.15s ease;
+
+        &:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .product-name {
+            font-weight: 600;
+            font-size: 13px;
+            color: #1a1a2e;
+        }
+
+        .price-tag {
+            color: #e94560;
+            font-weight: 700;
+        }
+    }
+}
+
+// ── Sale / promotional price badge ───────────────────────────────────────────
+.pricelist-badge,
+.discount-badge {
+    background-color: #e94560 !important;
+    color: #ffffff !important;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+// ── Category filter buttons ──────────────────────────────────────────────────
+.category-list {
+    .category-button {
+        border-radius: 20px;
+        border: 2px solid #1a1a2e;
+        color: #1a1a2e;
+        font-weight: 600;
+        transition: background-color 0.15s;
+
+        &.active,
+        &:hover {
+            background-color: #1a1a2e;
+            color: #ffffff;
+        }
+    }
+}
+
+// ── Order summary panel ──────────────────────────────────────────────────────
+.order-container {
+    background-color: #f9f9f9;
+
+    .orderline {
+        &.selected {
+            background-color: #eef0ff;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+    }
+
+    .order-total {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+}
+
+// ── Payment screen buttons ────────────────────────────────────────────────────
+.payment-method-button {
+    &[data-method-name="Wave Mobile Money"] {
+        background-color: #0096FF !important;   // Wave brand blue
+        color: #ffffff !important;
+    }
+
+    &[data-method-name="Afrimoney"] {
+        background-color: #F7941D !important;   // Afrimoney brand orange
+        color: #ffffff !important;
+    }
+}
+
+// ── Validate / pay button ─────────────────────────────────────────────────────
+.validate-button,
+.btn.btn-primary.validate {
+    background-color: #1a1a2e !important;
+    border-color: #1a1a2e !important;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    &:hover {
+        background-color: #e94560 !important;
+        border-color: #e94560 !important;
+    }
+}

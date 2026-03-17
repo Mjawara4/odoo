@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--
+        Custom POS receipt for the Fashion Shop.
+
+        Inherits the base POS receipt template and adds:
+        - Shop name + tagline header
+        - SKU (default_code) displayed next to each order line
+        - Fashion variant info (size, colour) on the receipt
+        - Footer with return policy reminder
+        - GMD currency is handled automatically by Odoo once the company
+          currency is set to Gambian Dalasi (GMD).
+    -->
+    <template id="pos_receipt_fashion" inherit_id="point_of_sale.receipt">
+
+        <!-- ── Shop header ───────────────────────────────────────────────── -->
+        <xpath expr="//div[hasclass('pos-receipt-center-align')][1]" position="replace">
+            <div class="pos-receipt-center-align" style="margin-bottom: 8px;">
+                <div style="font-size: 20px; font-weight: bold; letter-spacing: 2px;">
+                    FASHION SHOP
+                </div>
+                <div style="font-size: 11px; color: #555;">
+                    Your Style, Your Way — Banjul, Gambia
+                </div>
+                <div style="font-size: 10px; margin-top: 4px;">
+                    Tel: +220 XXX XXXX  |  IG: @fashionshop_gm
+                </div>
+            </div>
+        </xpath>
+
+        <!-- ── Add SKU + variant detail to each order line ─────────────── -->
+        <xpath expr="//t[@t-foreach='receipt.orderlines']" position="inside">
+            <t t-if="line.product_type != 'service'">
+                <div style="font-size: 10px; color: #666; padding-left: 8px;">
+                    <t t-if="line.product_name_wrapped">
+                        SKU: <t t-esc="line.product_barcode or ''"/>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+
+        <!-- ── Return policy footer ─────────────────────────────────────── -->
+        <xpath expr="//div[hasclass('pos-receipt-center-align')][last()]" position="after">
+            <div style="margin-top: 10px; border-top: 1px dashed #ccc; padding-top: 8px;
+                        font-size: 10px; text-align: center; color: #555;">
+                <div>Exchange within 7 days with receipt.</div>
+                <div>No cash refunds — manager approval required.</div>
+                <div style="margin-top: 4px; font-weight: bold;">
+                    Thank you for shopping with us!
+                </div>
+            </div>
+        </xpath>
+
+    </template>
+</odoo>

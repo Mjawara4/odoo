@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--
+        Daily Stock Loss Logging
+        ========================
+        A simplified menu entry that opens the standard stock.scrap wizard
+        pre-filtered to the Fashion Shop locations.  Staff use this to log:
+          - Damaged items
+          - Stolen items
+          - Items lost / unaccounted for
+
+        Each scrap record immediately deducts the quantity from inventory and
+        contributes to the monthly shrinkage report.
+
+        To find monthly shrinkage: Inventory → Reporting → Moves History,
+        filter by Move Type = Scrap, group by Product Category + Month.
+    -->
+
+    <!-- Simplified scrap form: only fields staff need on the shop floor -->
+    <record id="view_stock_scrap_fashion_form" model="ir.ui.view">
+        <field name="name">stock.scrap.fashion.form</field>
+        <field name="model">stock.scrap</field>
+        <field name="inherit_id" ref="stock.stock_scrap_form_view2"/>
+        <field name="arch" type="xml">
+            <!-- Show location fields so staff can specify Shop Floor vs Backroom -->
+            <field name="location_id" position="before">
+                <field name="date_done" string="Date / Time" readonly="1"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Menu: Inventory → Operations → Log Stock Loss -->
+    <record id="action_stock_scrap_fashion" model="ir.actions.act_window">
+        <field name="name">Log Stock Loss</field>
+        <field name="res_model">stock.scrap</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{
+            'default_location_id': %(fashion_pos.location_shop_floor)d,
+            'search_default_todo': 1
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No losses recorded yet.
+            </p>
+            <p>
+                Use this menu to log damaged, stolen, or lost items.
+                Each entry immediately deducts the quantity from stock.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_stock_scrap_fashion"
+              name="Log Stock Loss"
+              parent="stock.menu_stock_warehouse_mgmt"
+              action="action_stock_scrap_fashion"
+              sequence="25"/>
+</odoo>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--
+        Add a "Fashion" tab to the product form with season, gender, brand,
+        and origin fields.  Also shows the auto-generated SKU (default_code)
+        prominently so staff can verify it.
+    -->
+    <record id="view_product_template_fashion_form" model="ir.ui.view">
+        <field name="name">product.template.fashion.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Add Fashion tab after the General Information tab -->
+            <notebook position="inside">
+                <page string="Fashion" name="fashion_tab">
+                    <group string="Classification">
+                        <field name="fashion_gender"/>
+                        <field name="fashion_season"
+                               placeholder="e.g. SS2025, AW2025"/>
+                        <field name="fashion_brand"
+                               placeholder="Brand or supplier label"/>
+                        <field name="fashion_origin"/>
+                    </group>
+                    <group string="SKU / Internal Reference">
+                        <field name="default_code"
+                               string="SKU (auto-generated)"
+                               attrs="{'readonly': [('default_code', '!=', False)]}"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!--
+        Add fashion_gender as an optional column in the product list view
+        so buyers can quickly filter by Men / Women / Kids.
+    -->
+    <record id="view_product_template_fashion_list" model="ir.ui.view">
+        <field name="name">product.template.fashion.list</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="default_code" position="after">
+                <field name="fashion_gender" optional="show"/>
+                <field name="fashion_season" optional="hide"/>
+            </field>
+        </field>
+    </record>
+</odoo>

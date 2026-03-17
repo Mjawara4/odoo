@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Add SKU Code field to the product category form -->
+    <record id="view_product_category_fashion_form" model="ir.ui.view">
+        <field name="name">product.category.fashion.form</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="fashion_sku_code"
+                       placeholder="e.g. TOP, DRS, SHO"
+                       attrs="{'invisible': [('fashion_sku_code', '=', False)]}"/>
+            </field>
+        </field>
+    </record>
+</odoo>
