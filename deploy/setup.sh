@@ -2,12 +2,13 @@
 # =============================================================================
 # Fashion Shop POS — One-command VPS Setup
 # =============================================================================
-# Run this once on a fresh Ubuntu 22.04 VPS as root:
+# Run this ONCE on a fresh Ubuntu 22.04 VPS.  SSH in as root, then paste:
 #
-#   curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB/odoo/claude/customize-pos-fashion-3k0pn/deploy/setup.sh | bash
+#   git clone -b claude/customize-pos-fashion-3k0pn \
+#       https://github.com/Mjawara4/odoo /opt/fashion-pos \
+#   && bash /opt/fashion-pos/deploy/setup.sh
 #
-# OR after cloning the repo:
-#   sudo bash deploy/setup.sh
+# That single command clones your repo and fully deploys the Fashion POS.
 #
 # What this script does:
 #   1. Updates the system
@@ -93,7 +94,11 @@ else
         ln -sfn "${PARENT_DIR}" "${REPO_DIR}"
         success "Repository linked."
     else
-        die "Cannot find repository. Clone first:\n  git clone https://github.com/YOUR_GITHUB/odoo ${REPO_DIR}\n  cd ${REPO_DIR}\n  sudo bash deploy/setup.sh"
+        # Fresh VPS — clone the repo automatically
+        info "Cloning repository from GitHub..."
+        git clone -b claude/customize-pos-fashion-3k0pn \
+            https://github.com/Mjawara4/odoo "${REPO_DIR}"
+        success "Repository cloned."
     fi
 fi
 
