@@ -136,18 +136,20 @@ success "WireGuard VPN configured."
 # =============================================================================
 info "Step 6/10 — Building and starting Docker containers..."
 cd "${REPO_DIR}"
-docker compose down --remove-orphans 2>/dev/null || true
+# Always wipe volumes on setup to avoid stale DB passwords from previous runs
+docker compose down -v --remove-orphans 2>/dev/null || true
 docker compose build --quiet
 docker compose up -d
 success "Containers started."
 
-# Wait for Odoo to be ready
-info "Waiting for Odoo to initialise (up to 3 minutes)..."
-for i in $(seq 1 36); do
-    if docker compose exec -T odoo curl -sf http://localhost:8069/web/database/selector &>/dev/null; then
+# Wait for PostgreSQL to be ready before attempting module install
+info "Waiting for PostgreSQL to be ready..."
+for i in $(seq 1 30); do
+    if docker compose exec -T db pg_isready -U "${DB_USER:-odoo}" &>/dev/null; then
+        success "PostgreSQL is ready."
         break
     fi
-    sleep 5
+    sleep 2
 done
 
 # =============================================================================
@@ -155,7 +157,9 @@ done
 # =============================================================================
 info "Step 7/10 — Installing fashion_pos module and setting up database..."
 source "${ENV_FILE}"
-docker compose exec -T odoo odoo \
+# Run Odoo init directly (stop the running container first to avoid port conflicts)
+docker compose stop odoo
+docker compose run --rm odoo odoo \
     --config=/etc/odoo/odoo.conf \
     --db_host=db \
     --db_user="${DB_USER}" \
@@ -166,9 +170,9 @@ docker compose exec -T odoo odoo \
     --stop-after-init
 success "fashion_pos module installed."
 
-# Restart Odoo in server mode after init
+# Start Odoo in server mode
 docker compose up -d
-success "Odoo restarted."
+success "Odoo started."
 
 # =============================================================================
 # STEP 8 — Nginx reverse proxy (VPN-only)
