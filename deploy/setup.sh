@@ -111,7 +111,7 @@ if [[ -f "${ENV_FILE}" ]]; then
     warn ".env already exists — keeping existing passwords."
 else
     # Generate a random 32-char password
-    DB_PASS=$(tr -dc 'A-Za-z0-9!@#$%^&*' </dev/urandom | head -c 32)
+    DB_PASS=$(set +o pipefail; tr -dc 'A-Za-z0-9!@#$%^&*' </dev/urandom | head -c 32; set -o pipefail)
     cat > "${ENV_FILE}" <<EOF
 # Fashion POS — Environment Configuration
 # KEEP THIS FILE SECRET — never commit it to git
