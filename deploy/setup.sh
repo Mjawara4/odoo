@@ -175,6 +175,7 @@ info "Using image: ${ODOO_IMAGE}"
 DB_HOST="fashion_db"
 
 info "Running Odoo database initialisation (this takes 5-10 minutes)..."
+info "Logs also saved to /tmp/odoo-init.log"
 set +e
 docker run --rm \
     --network fashion_internal \
@@ -186,6 +187,8 @@ docker run --rm \
     -e PASSWORD="${DB_PASSWORD}" \
     "${ODOO_IMAGE}" \
     odoo \
+    --logfile=/dev/stdout \
+    --log-level=info \
     --db_host="${DB_HOST}" \
     --db_port=5432 \
     --db_user="${DB_USER}" \
@@ -193,8 +196,8 @@ docker run --rm \
     --database="${DB_NAME}" \
     --init=fashion_pos \
     --without-demo=all \
-    --stop-after-init
-INIT_RC=$?
+    --stop-after-init 2>&1 | tee /tmp/odoo-init.log
+INIT_RC=${PIPESTATUS[0]}
 set -e
 [[ ${INIT_RC} -eq 0 ]] || die "Odoo init failed (exit ${INIT_RC}) — see errors above"
 success "fashion_pos module installed."
