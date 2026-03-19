@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy your forked Odoo source into the image
 # (addons are also mounted as a volume at runtime for live reloading)
-COPY --chown=odoo:odoo addons /mnt/extra-addons
+COPY --chown=odoo:odoo addons/fashion_pos /mnt/extra-addons/fashion_pos
 
 # Switch back to the odoo user
 USER odoo

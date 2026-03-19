@@ -49,7 +49,7 @@ services:
       PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set in .env}
     volumes:
       # Odoo addons — your fork is mounted directly
-      - ./addons:/mnt/extra-addons:ro
+      - ./addons/fashion_pos:/mnt/extra-addons/fashion_pos:ro
       # Persistent file storage (uploaded images, attachments)
       - odoo_data:/var/lib/odoo
       # Configuration file

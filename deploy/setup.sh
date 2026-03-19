@@ -179,7 +179,7 @@ info "Logs also saved to /tmp/odoo-init.log"
 set +e
 docker run --rm \
     --network fashion_internal \
-    -v "${REPO_DIR}/addons:/mnt/extra-addons:ro" \
+    -v "${REPO_DIR}/addons/fashion_pos:/mnt/extra-addons/fashion_pos:ro" \
     -v "${REPO_DIR}/deploy/odoo.conf:/etc/odoo/odoo.conf:ro" \
     -e HOST="${DB_HOST}" \
     -e PORT=5432 \
