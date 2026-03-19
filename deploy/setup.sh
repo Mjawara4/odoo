@@ -159,20 +159,34 @@ done
 info "Step 7/10 — Installing fashion_pos module and setting up database..."
 source "${ENV_FILE}"
 
-# Use docker run directly for full control — avoids docker compose run edge cases
-ODOO_IMAGE="fashion-pos-odoo"
+# Resolve the built image name (docker compose tags as {project}-{service})
+# The project name comes from the directory name: fashion-pos → fashion-pos-odoo
+ODOO_IMAGE=""
+for candidate in "fashion-pos-odoo" "fashion_pos-odoo" "fashionpos-odoo"; do
+    if docker image inspect "${candidate}" &>/dev/null; then
+        ODOO_IMAGE="${candidate}"
+        break
+    fi
+done
+[[ -n "${ODOO_IMAGE}" ]] || die "Could not find built Odoo image. Run: docker images | grep odoo"
+info "Using image: ${ODOO_IMAGE}"
+
+# DB_HOST = container name (docker run does not resolve compose service names)
+DB_HOST="fashion_db"
+
 info "Running Odoo database initialisation (this takes 5-10 minutes)..."
+set +e
 docker run --rm \
     --network fashion_internal \
     -v "${REPO_DIR}/addons:/mnt/extra-addons:ro" \
     -v "${REPO_DIR}/deploy/odoo.conf:/etc/odoo/odoo.conf:ro" \
-    -e HOST=db \
+    -e HOST="${DB_HOST}" \
     -e PORT=5432 \
     -e USER="${DB_USER}" \
     -e PASSWORD="${DB_PASSWORD}" \
     "${ODOO_IMAGE}" \
     odoo \
-    --db_host=db \
+    --db_host="${DB_HOST}" \
     --db_port=5432 \
     --db_user="${DB_USER}" \
     --db_password="${DB_PASSWORD}" \
@@ -180,6 +194,9 @@ docker run --rm \
     --init=fashion_pos \
     --without-demo=all \
     --stop-after-init
+INIT_RC=$?
+set -e
+[[ ${INIT_RC} -eq 0 ]] || die "Odoo init failed (exit ${INIT_RC}) — see errors above"
 success "fashion_pos module installed."
 
 # Start the full stack (odoo + db)
