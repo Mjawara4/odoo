@@ -132,24 +132,25 @@ bash "${REPO_DIR}/deploy/wireguard.sh"
 success "WireGuard VPN configured."
 
 # =============================================================================
-# STEP 6 — Start Odoo + PostgreSQL
+# STEP 6 — Build image and start PostgreSQL only
 # =============================================================================
-info "Step 6/10 — Building and starting Docker containers..."
+info "Step 6/10 — Building image and starting database..."
 cd "${REPO_DIR}"
 # Always wipe volumes on setup to avoid stale DB passwords from previous runs
 docker compose down -v --remove-orphans 2>/dev/null || true
 docker compose build --quiet
-docker compose up -d
-success "Containers started."
+docker compose up -d db
+success "Database container started."
 
-# Wait for PostgreSQL to be ready before attempting module install
+# Wait for PostgreSQL to accept connections
 info "Waiting for PostgreSQL to be ready..."
 for i in $(seq 1 30); do
-    if docker compose exec -T db pg_isready -U "${DB_USER:-odoo}" &>/dev/null; then
+    if docker compose exec -T db pg_isready -U "${DB_USER:-odoo}" -q 2>/dev/null; then
         success "PostgreSQL is ready."
         break
     fi
     sleep 2
+    [[ $i -eq 30 ]] && { warn "PostgreSQL not ready after 60s, trying anyway..."; }
 done
 
 # =============================================================================
@@ -157,11 +158,22 @@ done
 # =============================================================================
 info "Step 7/10 — Installing fashion_pos module and setting up database..."
 source "${ENV_FILE}"
-# Run Odoo init directly (stop the running container first to avoid port conflicts)
-docker compose stop odoo
-docker compose run --rm odoo odoo \
-    --config=/etc/odoo/odoo.conf \
+
+# Use docker run directly for full control — avoids docker compose run edge cases
+ODOO_IMAGE="fashion-pos-odoo"
+info "Running Odoo database initialisation (this takes 5-10 minutes)..."
+docker run --rm \
+    --network fashion_internal \
+    -v "${REPO_DIR}/addons:/mnt/extra-addons:ro" \
+    -v "${REPO_DIR}/deploy/odoo.conf:/etc/odoo/odoo.conf:ro" \
+    -e HOST=db \
+    -e PORT=5432 \
+    -e USER="${DB_USER}" \
+    -e PASSWORD="${DB_PASSWORD}" \
+    "${ODOO_IMAGE}" \
+    odoo \
     --db_host=db \
+    --db_port=5432 \
     --db_user="${DB_USER}" \
     --db_password="${DB_PASSWORD}" \
     --database="${DB_NAME}" \
@@ -170,9 +182,9 @@ docker compose run --rm odoo odoo \
     --stop-after-init
 success "fashion_pos module installed."
 
-# Start Odoo in server mode
+# Start the full stack (odoo + db)
 docker compose up -d
-success "Odoo started."
+success "All services started."
 
 # =============================================================================
 # STEP 8 — Nginx reverse proxy (VPN-only)
