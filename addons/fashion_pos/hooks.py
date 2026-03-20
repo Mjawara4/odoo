@@ -325,11 +325,8 @@ def _ensure_loyalty_promotion(env):
                 'description': '10% off on orders with 3+ items',
             })],
         })
-        # Link to the Fashion Shop POS config
-        pos_cfg = env.ref('fashion_pos.pos_config_fashion', raise_if_not_found=False)
-        if pos_cfg:
-            pos_cfg.write({'use_promotion': True})
-            pos_cfg.promotion_program_ids = [(4, prog.id)]
+        # No POS config link needed — pos_loyalty applies programs with no
+        # specific POS set to every POS config automatically.
         _logger.info('Fashion POS: loyalty promotion created.')
     except Exception:
         _logger.exception('Fashion POS: could not create loyalty promotion.')
