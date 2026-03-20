@@ -1,25 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo noupdate="1">
     <!--
-        Default POS configuration for the fashion shop.
+        Full POS configuration for the Fashion Shop.
 
-        Notes:
-        - restrict_price_control = True  → only POS Managers can change
-          product prices or apply manual discounts at checkout.
-        - Employee PIN login is enabled automatically once the pos_hr module
-          is active. Assign "basic" or "manager" roles to employees in
-          Point of Sale → Configuration → Settings → Employees.
-        - Manager approval for refunds is enforced by the pos_hr frontend:
-          only employees with the "manager" role can open the return screen.
-        - Wave and Afrimoney payment methods are linked here. Cash (GMD) is
-          added automatically from the default journal.
-        - Set the company currency to GMD (Gambian Dalasi) in
-          Settings → Companies before activating the POS session.
+        Key settings:
+        ─────────────────────────────────────────────────────────────────────
+        • restrict_price_control   – only POS Managers can change prices or
+                                     apply manual discounts at checkout.
+        • iface_big_scrollbars     – finger-friendly scroll bars (tablet/touch).
+        • POS screen category buttons are linked so cashiers can filter
+          products by Tops / Bottoms / Dresses / Shoes / Accessories / Underwear.
+        • Payment methods          – Wave Mobile Money, Afrimoney, and Cash
+                                     (Cash is added automatically from the
+                                     company's default cash journal).
+        ─────────────────────────────────────────────────────────────────────
+        Currency: set your company to GMD (Gambian Dalasi) in
+                  Settings → Companies before opening the first POS session.
+        Staff PINs: assign PIN codes to employees in
+                  Point of Sale → Configuration → Settings → Employees.
+        Refund approval: only employees with the "Manager" POS role can
+                  open the refund screen (enforced by pos_hr).
     -->
 
     <record id="pos_config_fashion" model="pos.config">
         <field name="name">Fashion Shop</field>
+
+        <!-- Price / discount control: only managers can change prices -->
         <field name="restrict_price_control" eval="True"/>
+
+        <!-- Touch-friendly display -->
+        <field name="iface_big_scrollbars" eval="True"/>
+
+        <!-- POS screen category filter buttons -->
+        <field name="iface_available_categ_ids" eval="[
+            Command.link(ref('fashion_pos.pos_categ_tops')),
+            Command.link(ref('fashion_pos.pos_categ_bottoms')),
+            Command.link(ref('fashion_pos.pos_categ_dresses')),
+            Command.link(ref('fashion_pos.pos_categ_shoes')),
+            Command.link(ref('fashion_pos.pos_categ_accessories')),
+            Command.link(ref('fashion_pos.pos_categ_underwear')),
+            Command.link(ref('fashion_pos.pos_categ_sale')),
+        ]"/>
+
+        <!-- Payment methods (Cash journal added automatically) -->
         <field name="payment_method_ids" eval="[
             Command.link(ref('fashion_pos.payment_method_wave')),
             Command.link(ref('fashion_pos.payment_method_afrimoney')),

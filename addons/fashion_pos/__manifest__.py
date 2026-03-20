@@ -37,11 +37,13 @@ Customises Odoo POS for a fashion retail shop sourcing inventory from China:
         'data/product_attribute.xml',
         'data/stock_location.xml',
         'data/payment_method.xml',
+        'data/pos_category.xml',
         'data/pos_config.xml',
         'views/product_category_view.xml',
         'views/product_template_view.xml',
         'views/stock_scrap_view.xml',
     ],
+    'post_init_hook': 'post_init_hook',
     'assets': {
         # Load the branding stylesheet inside the POS frontend app
         'point_of_sale._assets_pos': [
