@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Override the receipt header to show shop name/tagline -->
+    <t t-name="fashion_pos.OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('pos-receipt')]" position="before">
+            <div class="pos-receipt-center-align" style="margin-bottom: 8px;">
+                <div style="font-size: 20px; font-weight: bold; letter-spacing: 2px;">
+                    FASHION SHOP
+                </div>
+                <div style="font-size: 11px; color: #555;">
+                    Your Style, Your Way — Banjul, Gambia
+                </div>
+                <div style="font-size: 10px; margin-top: 4px;">
+                    Tel: +220 XXX XXXX  |  IG: @fashionshop_gm
+                </div>
+            </div>
+        </xpath>
+        <!-- Return policy footer after the receipt body -->
+        <xpath expr="//div[hasclass('pos-receipt')]" position="after">
+            <div style="margin-top: 10px; border-top: 1px dashed #ccc; padding-top: 8px;
+                        font-size: 10px; text-align: center; color: #555;">
+                <div>Exchange within 7 days with receipt.</div>
+                <div>No cash refunds — manager approval required.</div>
+                <div style="margin-top: 4px; font-weight: bold;">
+                    Thank you for shopping with us!
+                </div>
+            </div>
+        </xpath>
+    </t>
+
+</templates>

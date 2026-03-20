@@ -41,12 +41,12 @@ Customises Odoo POS for a fashion retail shop sourcing inventory from China:
         'views/product_category_view.xml',
         'views/product_template_view.xml',
         'views/stock_scrap_view.xml',
-        'report/pos_receipt_inherit.xml',
     ],
     'assets': {
         # Load the branding stylesheet inside the POS frontend app
         'point_of_sale._assets_pos': [
             'fashion_pos/static/src/scss/fashion_pos.scss',
+            'fashion_pos/static/src/xml/fashion_receipt.xml',
         ],
     },
     'installable': True,
