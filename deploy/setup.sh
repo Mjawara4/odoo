@@ -255,6 +255,7 @@ ufw default deny incoming
 ufw default allow outgoing
 ufw allow ssh                       # keep SSH access
 ufw allow "${VPN_PORT}/udp"         # WireGuard VPN
+ufw allow in on wg0 to any port 80 proto tcp   # HTTP from VPN clients only
 # Odoo is ONLY accessible on the VPN interface — no public HTTP/HTTPS
 # Nginx listens only on 10.0.0.1 (set in nginx.conf)
 ufw --force enable
