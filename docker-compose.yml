@@ -55,11 +55,9 @@ services:
       # Configuration file
       - ./deploy/odoo.conf:/etc/odoo/odoo.conf:ro
     ports:
-      # Expose ONLY on the WireGuard VPN interface (10.0.0.1)
-      # Change to "127.0.0.1:8069:8069" if Nginx runs on the same host
-      - "10.0.0.1:8069:8069"
-      # Longpolling for real-time POS updates
-      - "10.0.0.1:8072:8072"
+      # Bind to loopback — Nginx on the host proxies to here
+      - "127.0.0.1:8069:8069"
+      - "127.0.0.1:8072:8072"
     command: >
       odoo
       --config=/etc/odoo/odoo.conf
