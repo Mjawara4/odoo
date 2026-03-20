@@ -2,7 +2,7 @@
 <odoo noupdate="1">
     <!--
         POS screen category buttons.
-        These appear as the coloured filter buttons on the POS product grid.
+        These appear as the filter buttons on the POS product grid.
         The seed hook (hooks.py) also creates them if the module is already
         installed — whichever runs first wins.
     -->
@@ -10,42 +10,35 @@
     <record id="pos_categ_tops" model="pos.category">
         <field name="name">Tops</field>
         <field name="sequence">10</field>
-        <field name="color">1</field>
     </record>
 
     <record id="pos_categ_bottoms" model="pos.category">
         <field name="name">Bottoms</field>
         <field name="sequence">20</field>
-        <field name="color">2</field>
     </record>
 
     <record id="pos_categ_dresses" model="pos.category">
         <field name="name">Dresses</field>
         <field name="sequence">30</field>
-        <field name="color">10</field>
     </record>
 
     <record id="pos_categ_shoes" model="pos.category">
         <field name="name">Shoes</field>
         <field name="sequence">40</field>
-        <field name="color">4</field>
     </record>
 
     <record id="pos_categ_accessories" model="pos.category">
         <field name="name">Accessories</field>
         <field name="sequence">50</field>
-        <field name="color">5</field>
     </record>
 
     <record id="pos_categ_underwear" model="pos.category">
         <field name="name">Underwear</field>
         <field name="sequence">60</field>
-        <field name="color">9</field>
     </record>
 
     <record id="pos_categ_sale" model="pos.category">
         <field name="name">SALE</field>
         <field name="sequence">70</field>
-        <field name="color">6</field>
     </record>
 </odoo>

@@ -184,27 +184,18 @@ def post_init_hook(env):
 
 # ─── POS screen categories ────────────────────────────────────────────────────
 
-_POS_CATEG_COLORS = {
-    'Tops': 1,
-    'Bottoms': 2,
-    'Dresses': 10,
-    'Shoes': 4,
-    'Accessories': 5,
-    'Underwear': 9,
-    'SALE': 6,
-}
+_POS_CATEGS = ['Tops', 'Bottoms', 'Dresses', 'Shoes', 'Accessories', 'Underwear', 'SALE']
 
 
 def _ensure_pos_categories(env):
     """Create POS screen categories and return {name: record}."""
     result = {}
-    for seq, (name, color) in enumerate(_POS_CATEG_COLORS.items(), start=1):
+    for seq, name in enumerate(_POS_CATEGS, start=1):
         rec = env['pos.category'].search([('name', '=', name)], limit=1)
         if not rec:
             rec = env['pos.category'].create({
                 'name': name,
                 'sequence': seq * 10,
-                'color': color,
             })
             _logger.info('Fashion POS: created POS category "%s".', name)
         result[name] = rec
