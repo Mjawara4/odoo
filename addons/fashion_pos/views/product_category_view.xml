@@ -8,8 +8,7 @@
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <field name="fashion_sku_code"
-                       placeholder="e.g. TOP, DRS, SHO"
-                       attrs="{'invisible': [('fashion_sku_code', '=', False)]}"/>
+                       placeholder="e.g. TOP, DRS, SHO"/>
             </field>
         </field>
     </record>

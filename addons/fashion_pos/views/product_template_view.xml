@@ -24,7 +24,7 @@
                     <group string="SKU / Internal Reference">
                         <field name="default_code"
                                string="SKU (auto-generated)"
-                               attrs="{'readonly': [('default_code', '!=', False)]}"/>
+                               readonly="default_code != False"/>
                     </group>
                 </page>
             </notebook>
